@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HatDat™ | Pet Registry & Audio</title>
+  <meta name="description" content="HatDat™ Pet Rescue: a free, no-sign-up way for neighbours to help lost pets get home. Snap it. Post it. Bring them home.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
+
+  <!-- Share preview (LinkedIn, Facebook, WhatsApp, X) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.hatdat.com/">
+  <meta property="og:site_name" content="HatDat™">
+  <meta property="og:title" content="HatDat™ Pet Rescue is almost here">
+  <meta property="og:description" content="Snap it. Post it. Bring them home. A free, no-sign-up way for neighbours to help lost pets find their way home.">
+  <meta property="og:image" content="https://www.hatdat.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="HatDat™ Pet Rescue is almost here. Snap it. Post it. Bring them home.">
+  <meta name="twitter:card" content="summary_large_image">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root {
@@ -54,6 +68,10 @@
       text-align: center;
     }
     h1 { color: var(--gold); margin-top: 0; font-size: 1.8rem; }
+    h1 .hat { color: var(--gold); }
+    h1 .dat { color: var(--teal); }
+    h1 .tm { color: var(--gold); font-size: 0.6em; vertical-align: super; }
+    h1 .paws { font-size: 0.9em; }
     p { color: var(--text-muted); line-height: 1.5; }
     .player-box {
       background-color: var(--card);
@@ -130,12 +148,12 @@
 </head>
 <body>
   <div class="container">
-    <h1>HatDat™ Platform</h1>
+    <h1><span class="paws" aria-hidden="true">🐾</span> <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span> Platform</h1>
     <p>Local-first data ownership and community infrastructure. Enjoy the broadcast stream below while we build out the pet registry.</p>
     <div class="player-box">
       <!-- Embed your Mixcloud or audio stream iframe here -->
       <iframe width="100%" height="60"
-        src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&autoplay=1&feed=%2FRedEyeORadiio%2Fred-eye-oradio-o%2F&utm_medium=share&utm_source=embed&utm_content=show&utm_term=VXNlcjo0NTU4NjA3MQ%3D%3D"
+        src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=%2FRedEyeORadiio%2Fred-eye-oradio-o%2F&utm_medium=share&utm_source=embed&utm_content=show&utm_term=VXNlcjo0NTU4NjA3MQ%3D%3D"
         frameborder="0"
         allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;"></iframe>
     </div>
