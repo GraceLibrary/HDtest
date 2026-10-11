@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HatDat™ | Pet Registry & Audio</title>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root {
       --bg: #0f0c0a;
@@ -16,6 +17,19 @@
       --teal-light: #8bb8a6;
       --text-light: #e8ddd0;
       --text-muted: #a09286;
+
+      /* HatDat™ Pet Rescue colours (PROJECT_SPECS.md), used in the pop-up only */
+      --pr-bg: #F7F8F5;
+      --pr-card: #FFFFFF;
+      --pr-border: #DDE5DF;
+      --pr-border-input: #7D8D85;
+      --pr-text: #202A27;
+      --pr-text-muted: #596760;
+      --pr-primary: #066B61;
+      --pr-primary-hover: #06665C;
+      --pr-secondary-bg: #B3D9CF;
+      --pr-success: #287A4B;
+      --pr-error: #B42318;
     }
     body {
       background-color: var(--bg);
@@ -64,23 +78,54 @@
     }
     .btn-teal:hover, .btn-teal:focus-visible { background-color: var(--teal-light); }
 
-    /* Coming-soon pop-up */
+    /* Coming-soon pop-up: a gentle push in the Pet Rescue colours */
     dialog {
-      background-color: var(--surface);
-      color: var(--text-light);
-      border: 1px solid var(--gold);
-      border-radius: 10px;
+      background-color: var(--pr-card);
+      color: var(--pr-text);
+      border: 2px solid var(--pr-primary);
+      border-radius: 12px;
       padding: 2rem 1.5rem 1.5rem;
       max-width: 420px;
       width: 88%;
+      box-sizing: border-box;
       text-align: center;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
     }
     dialog::backdrop { background: rgba(0, 0, 0, 0.7); }
     dialog .paw { font-size: 2.2rem; line-height: 1; }
-    dialog h2 { color: var(--gold); margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
-    dialog .tagline { color: var(--gold-light); font-weight: bold; margin: 0 0 1rem; }
-    dialog p { margin: 0 0 0.75rem; }
+    dialog h2 { color: var(--pr-primary); margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
+    dialog .tagline { color: var(--pr-text); font-weight: 700; margin: 0 0 1rem; }
+    dialog p { color: var(--pr-text-muted); margin: 0 0 0.75rem; }
+    dialog :focus-visible { outline: 3px solid var(--pr-primary); outline-offset: 2px; }
+
+    /* Pop-up buttons: solid fills only (no ghost buttons), 44px tall, bold */
+    .pr-btn-primary, .pr-btn-secondary {
+      min-height: 44px; padding: 0.6rem 1.2rem; border-radius: 8px;
+      font: inherit; font-weight: 700; cursor: pointer; margin-top: 0.75rem;
+    }
+    .pr-btn-primary { width: 100%; background: var(--pr-primary); color: #FFFFFF; border: 2px solid var(--pr-primary); }
+    .pr-btn-primary:hover { background: var(--pr-primary-hover); }
+    .pr-btn-primary:disabled { opacity: 0.6; cursor: wait; }
+    .pr-btn-secondary { background: var(--pr-secondary-bg); color: var(--pr-text); border: 2px solid var(--pr-primary); }
+
+    /* Waitlist form */
+    .wl { text-align: left; margin-top: 1rem; border-top: 1px solid var(--pr-border); padding-top: 1rem; }
+    .wl label { display: block; font-weight: 700; color: var(--pr-text); margin-bottom: 0.35rem; }
+    .wl input[type=email] {
+      width: 100%; box-sizing: border-box; padding: 0.65rem; font: inherit;
+      background: var(--pr-card); color: var(--pr-text);
+      border: 1px solid var(--pr-border-input); border-radius: 8px;
+    }
+    .wl .consent { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 0.75rem;
+      font-weight: 400; color: var(--pr-text); font-size: 0.95rem; line-height: 1.4; }
+    .wl .consent input { margin-top: 0.15rem; width: 20px; height: 20px; flex: none; accent-color: var(--pr-primary); }
+    .wl .hp { position: absolute; left: -9999px; }
+    .wl .cf-turnstile { margin-top: 0.75rem; }
+    .wl .fine { font-size: 0.85rem; margin-top: 0.6rem; }
+    #wl-msg { margin-top: 0.75rem; font-weight: 700; text-align: center; }
+    #wl-msg.ok { color: var(--pr-success); }
+    #wl-msg.bad { color: var(--pr-error); }
   </style>
 </head>
 <body>
@@ -102,16 +147,56 @@
     <h2 id="soon-title">HatDat™ Pet Rescue is almost here</h2>
     <p class="tagline">Snap it. Post it. Bring them home.</p>
     <p>A free, no-sign-up way for neighbours to help lost pets find their way home. Spot a loose pet, snap a photo, and owners nearby see it right away.</p>
-    <p>We're putting on the finishing touches. Check back soon!</p>
-    <button type="button" class="btn-teal" id="close-soon">Can't wait!</button>
+
+    <form class="wl" id="wl">
+      <label for="wl-email">Get one email when we launch</label>
+      <input type="email" id="wl-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      <label class="consent">
+        <input type="checkbox" name="consent" value="yes" required>
+        <span>Yes, email me once when HatDat™ Pet Rescue launches.</span>
+      </label>
+      <!-- Honeypot: hidden from people; bots fill it in -->
+      <div class="hp" aria-hidden="true">
+        <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFTzuwsBcyt67jVG" data-theme="light"></div>
+      <button type="submit" class="pr-btn-primary" id="wl-send">Notify me at launch</button>
+      <p class="fine">Your email is used only for the launch note. Never shared, never sold. Reply anytime to be removed.</p>
+      <div id="wl-msg" role="status" aria-live="polite"></div>
+    </form>
+
+    <button type="button" class="pr-btn-secondary" id="close-soon">Close</button>
   </dialog>
 
   <script>
+    const API = "https://hatdat-pet-rescue-api.gracelibraryiea.workers.dev";
     const soon = document.getElementById("soon");
     document.getElementById("open-soon").addEventListener("click", () => soon.showModal());
     document.getElementById("close-soon").addEventListener("click", () => soon.close());
     // Clicking the dark area outside the pop-up also closes it (Esc works too).
     soon.addEventListener("click", (e) => { if (e.target === soon) soon.close(); });
+
+    const form = document.getElementById("wl");
+    const msg = document.getElementById("wl-msg");
+    const send = document.getElementById("wl-send");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      send.disabled = true; msg.className = ""; msg.textContent = "Sending...";
+      try {
+        const r = await fetch(API + "/api/waitlist", { method: "POST", body: new FormData(form) });
+        const d = await r.json();
+        if (r.ok) {
+          msg.className = "ok"; msg.textContent = d.message || "You're on the list!";
+          form.querySelectorAll("input, button").forEach((el) => { el.disabled = true; });
+          return;
+        }
+        msg.className = "bad"; msg.textContent = d.error || "Something went wrong. Please try again.";
+      } catch {
+        msg.className = "bad"; msg.textContent = "Couldn't connect. Please try again in a moment.";
+      }
+      if (window.turnstile) turnstile.reset();   // each human-check pass works once
+      send.disabled = false;
+    });
   </script>
 </body>
 </html>
