@@ -1,23 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HatDat™ | Pet Registry & Audio</title>
-  <meta name="description" content="HatDat™ Pet Rescue: a free, no-sign-up way for neighbours to help lost pets get home. Snap it. Post it. Bring them home.">
+  <title>HatDat™ Pet Rescue | Open Access Animal Real-Time Registry</title>
+  <meta name="description" content="HatDat™ Pet Rescue is a free, open access, real-time animal registry. No sign-up: spot a stray, snap a photo, post it, and nearby Watch Dogs help bring lost pets home.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="HatDat™">
+  <meta name="theme-color" content="#0f0c0a">
+  <meta name="color-scheme" content="dark">
+  <meta name="geo.region" content="CA-AB">
+  <meta name="geo.placename" content="Calgary">
+  <link rel="canonical" href="https://www.hatdat.com/">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
 
   <!-- Share preview (LinkedIn, Facebook, WhatsApp, X) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.hatdat.com/">
   <meta property="og:site_name" content="HatDat™">
-  <meta property="og:title" content="HatDat™ Pet Rescue is almost here">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:title" content="HatDat™ Pet Rescue | Open Access Animal Real-Time Registry">
   <meta property="og:description" content="Snap it. Post it. Bring them home. A free, no-sign-up way for neighbours to help lost pets find their way home.">
   <meta property="og:image" content="https://www.hatdat.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="HatDat™ Pet Rescue is almost here. Snap it. Post it. Bring them home.">
+  <meta property="og:image:alt" content="HatDat™ Pet Rescue. Snap it. Post it. Bring them home.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HatDat™ Pet Rescue | Open Access Animal Real-Time Registry">
+  <meta name="twitter:description" content="Snap it. Post it. Bring them home. A free, no-sign-up way for neighbours to help lost pets find their way home.">
+  <meta name="twitter:image" content="https://www.hatdat.com/og-image.png">
+  <meta name="twitter:image:alt" content="HatDat™ Pet Rescue. Snap it. Post it. Bring them home.">
+
+  <!-- Structured data for search engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.hatdat.com/#org",
+        "name": "HatDat™",
+        "url": "https://www.hatdat.com/",
+        "logo": "https://www.hatdat.com/og-image.png",
+        "areaServed": { "@type": "City", "name": "Calgary" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.hatdat.com/#site",
+        "url": "https://www.hatdat.com/",
+        "name": "HatDat™ Pet Rescue",
+        "description": "Free, open access, real-time animal registry for lost, found and stray pets.",
+        "publisher": { "@id": "https://www.hatdat.com/#org" },
+        "inLanguage": "en-CA"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://challenges.cloudflare.com">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     :root {
@@ -31,24 +71,13 @@
       --teal-light: #8bb8a6;
       --text-light: #e8ddd0;
       --text-muted: #a09286;
-
-      /* HatDat™ Pet Rescue colours (PROJECT_SPECS.md), used in the pop-up only */
-      --pr-bg: #F7F8F5;
-      --pr-card: #FFFFFF;
-      --pr-border: #DDE5DF;
-      --pr-border-input: #7D8D85;
-      --pr-text: #202A27;
-      --pr-text-muted: #596760;
-      --pr-primary: #066B61;
-      --pr-primary-hover: #06665C;
-      --pr-secondary-bg: #B3D9CF;
-      --pr-success: #287A4B;
-      --pr-error: #B42318;
+      --ok: #8bb8a6;
+      --bad: #e07a6a;
     }
     body {
       background-color: var(--bg);
       color: var(--text-light);
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
@@ -64,22 +93,30 @@
       padding: 2rem;
       max-width: 600px;
       width: 90%;
+      box-sizing: border-box;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       text-align: center;
     }
-    h1 { color: var(--gold); margin-top: 0; font-size: 1.8rem; }
+    .kicker {
+      color: var(--text-light);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      margin: 0 0 0.4rem;
+    }
+    h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
     h1 .hat { color: var(--gold); }
     h1 .dat { color: var(--teal); }
     h1 .tm { color: var(--gold); font-size: 0.6em; vertical-align: super; }
     h1 .paws { font-size: 0.9em; }
-    p { color: var(--text-muted); line-height: 1.5; }
-    .player-box {
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem;
-      margin-top: 1.5rem;
+    .subtitle {
+      color: var(--text-light);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.2em;
+      margin: 0.35rem 0 1rem;
     }
+    p { color: var(--text-muted); line-height: 1.5; }
     .btn-teal {
       display: inline-block;
       background-color: var(--teal);
@@ -95,13 +132,15 @@
       transition: background-color 0.2s;
     }
     .btn-teal:hover, .btn-teal:focus-visible { background-color: var(--teal-light); }
+    .btn-teal:disabled { opacity: 0.6; cursor: wait; }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 
-    /* Coming-soon pop-up: a gentle push in the Pet Rescue colours */
+    /* Pop-up: same colours and style as the homepage card */
     dialog {
-      background-color: var(--pr-card);
-      color: var(--pr-text);
-      border: 2px solid var(--pr-primary);
-      border-radius: 12px;
+      background-color: var(--surface);
+      color: var(--text-light);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
       padding: 2rem 1.5rem 1.5rem;
       max-width: 420px;
       width: 88%;
@@ -110,59 +149,58 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
       font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    dialog::backdrop { background: rgba(0, 0, 0, 0.7); }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.75); }
     dialog .paw { font-size: 2.2rem; line-height: 1; }
-    dialog h2 { color: var(--pr-primary); margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
-    dialog .tagline { color: var(--pr-text); font-weight: 700; margin: 0 0 1rem; }
-    dialog p { color: var(--pr-text-muted); margin: 0 0 0.75rem; }
-    dialog :focus-visible { outline: 3px solid var(--pr-primary); outline-offset: 2px; }
-
-    /* Pop-up buttons: solid fills only (no ghost buttons), 44px tall, bold */
-    .pr-btn-primary, .pr-btn-secondary {
-      min-height: 44px; padding: 0.6rem 1.2rem; border-radius: 8px;
-      font: inherit; font-weight: 700; cursor: pointer; margin-top: 0.75rem;
+    dialog h2 { color: var(--text-light); margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
+    dialog h2 .hat { color: var(--gold); }
+    dialog h2 .dat { color: var(--teal); }
+    dialog h2 .tm { color: var(--gold); font-size: 0.6em; vertical-align: super; }
+    dialog .tagline { color: var(--teal-light); font-weight: 700; margin: 0 0 1rem; }
+    dialog p { color: var(--text-muted); margin: 0 0 0.75rem; }
+    dialog .btn-teal { width: 100%; margin-top: 0.75rem; }
+    .btn-close {
+      min-height: 44px; padding: 0.6rem 1.2rem; margin-top: 0.75rem;
+      background: var(--card); color: var(--text-light);
+      border: 1px solid var(--border); border-radius: 4px;
+      font: inherit; font-weight: bold; cursor: pointer;
     }
-    .pr-btn-primary { width: 100%; background: var(--pr-primary); color: #FFFFFF; border: 2px solid var(--pr-primary); }
-    .pr-btn-primary:hover { background: var(--pr-primary-hover); }
-    .pr-btn-primary:disabled { opacity: 0.6; cursor: wait; }
-    .pr-btn-secondary { background: var(--pr-secondary-bg); color: var(--pr-text); border: 2px solid var(--pr-primary); }
+    .btn-close:hover { border-color: var(--gold); }
 
     /* Waitlist form */
-    .wl { text-align: left; margin-top: 1rem; border-top: 1px solid var(--pr-border); padding-top: 1rem; }
-    .wl label { display: block; font-weight: 700; color: var(--pr-text); margin-bottom: 0.35rem; }
+    .wl { text-align: left; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+    .wl label { display: block; font-weight: 700; color: var(--text-light); margin-bottom: 0.35rem; }
     .wl input[type=email] {
       width: 100%; box-sizing: border-box; padding: 0.65rem; font: inherit;
-      background: var(--pr-card); color: var(--pr-text);
-      border: 1px solid var(--pr-border-input); border-radius: 8px;
+      background: var(--card); color: var(--text-light);
+      border: 1px solid var(--border); border-radius: 4px;
     }
+    .wl input[type=email]::placeholder { color: var(--text-muted); }
+    .wl input[type=email]:focus { border-color: var(--teal); }
     .wl .consent { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 0.75rem;
-      font-weight: 400; color: var(--pr-text); font-size: 0.95rem; line-height: 1.4; }
-    .wl .consent input { margin-top: 0.15rem; width: 20px; height: 20px; flex: none; accent-color: var(--pr-primary); }
+      font-weight: 400; color: var(--text-light); font-size: 0.95rem; line-height: 1.4; }
+    .wl .consent input { margin-top: 0.15rem; width: 20px; height: 20px; flex: none; accent-color: var(--teal); }
     .wl .hp { position: absolute; left: -9999px; }
     .wl .cf-turnstile { margin-top: 0.75rem; }
     .wl .fine { font-size: 0.85rem; margin-top: 0.6rem; }
     #wl-msg { margin-top: 0.75rem; font-weight: 700; text-align: center; }
-    #wl-msg.ok { color: var(--pr-success); }
-    #wl-msg.bad { color: var(--pr-error); }
+    #wl-msg.ok { color: var(--ok); }
+    #wl-msg.bad { color: var(--bad); }
+
+    @media (prefers-reduced-motion: reduce) { .btn-teal { transition: none; } }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1><span class="paws" aria-hidden="true">🐾</span> <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span> System</h1>
-    <p>HatDat™ Animal Rescue. "When nothing interacts, everything persists". Enjoy the broadcast while we build out the free animal registry.</p>
-    <div class="player-box">
-      <!-- Embed your Mixcloud or audio stream iframe here -->
-      <iframe width="100%" height="60"
-        src="https://player-widget.mixcloud.com/widget/iframe/?hide_cover=1&mini=1&feed=%2FRedEyeORadiio%2Fred-eye-oradio-o%2F&utm_medium=share&utm_source=embed&utm_content=show&utm_term=VXNlcjo0NTU4NjA3MQ%3D%3D"
-        frameborder="0"
-        allow="encrypted-media; fullscreen; autoplay; idle-detection; speaker-selection; web-share;"></iframe>
-    </div>
+  <main class="container">
+    <p class="kicker">OPEN ACCESS</p>
+    <h1><span class="paws" aria-hidden="true">🐾</span> <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span></h1>
+    <p class="subtitle">ANIMAL REAL-TIME</p>
+    <p>HatDat™ Animal Rescue. "When nothing interacts, everything persists". We're building out the free animal registry.</p>
     <button type="button" class="btn-teal" id="open-soon">Open Access Pet Registry</button>
-  </div>
+  </main>
 
   <dialog id="soon" aria-labelledby="soon-title">
     <div class="paw" aria-hidden="true">🐾</div>
-    <h2 id="soon-title">HatDat™ Animal Rescue: Launching</h2>
+    <h2 id="soon-title"><span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span> Animal Rescue</h2>
     <p class="tagline">Spot a Stray * Take Photo * Upload * Done</p>
     <p>A free, no-sign-up way for neighbours to help lost pets find their way home. Spot a loose pet, snap a photo, and nearby 'watchdogs' see it right away.</p>
 
@@ -177,13 +215,13 @@
       <div class="hp" aria-hidden="true">
         <label>Website <input name="website" tabindex="-1" autocomplete="off"></label>
       </div>
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFTzuwsBcyt67jVG" data-theme="light"></div>
-      <button type="submit" class="pr-btn-primary" id="wl-send">Notify me at launch</button>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAFTzuwsBcyt67jVG" data-theme="dark"></div>
+      <button type="submit" class="btn-teal" id="wl-send">Notify me at launch</button>
       <p class="fine">Your email is used only for the launch note. Never shared, never sold. Reply anytime to be removed.</p>
       <div id="wl-msg" role="status" aria-live="polite"></div>
     </form>
 
-    <button type="button" class="pr-btn-secondary" id="close-soon">Close</button>
+    <button type="button" class="btn-close" id="close-soon">Close</button>
   </dialog>
 
   <script>
