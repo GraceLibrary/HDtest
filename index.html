@@ -73,6 +73,7 @@
       --text-muted: #a09286;
       --ok: #8bb8a6;
       --bad: #e07a6a;
+      --draw: 1.4s;
     }
     body {
       background-color: var(--bg);
@@ -96,19 +97,33 @@
       box-sizing: border-box;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       text-align: center;
+      position: relative;
     }
+    @media (max-width: 420px) { .container { padding: 1.75rem 1.25rem; } }
     .kicker {
       color: var(--text-light);
       font-weight: 700;
       font-size: 0.85rem;
       letter-spacing: 0.25em;
-      margin: 0 0 0.4rem;
+      margin: 0;
     }
-    h1 { color: var(--gold); margin: 0; font-size: 1.8rem; }
+    .rule {
+      border: 0;
+      height: 1px;
+      width: 80%;
+      margin: 0.75rem auto 0.5rem;
+      background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--teal) 80%, transparent);
+    }
+    /* Hero wordmark: as big as the card allows, scales down on phones */
+    h1 {
+      color: var(--gold); margin: 0;
+      font-size: clamp(2.5rem, 12vw, 4.75rem);
+      line-height: 1.05; letter-spacing: -0.01em; white-space: nowrap;
+    }
     h1 .hat { color: var(--gold); }
     h1 .dat { color: var(--teal); }
-    h1 .tm { color: var(--gold); font-size: 0.6em; vertical-align: super; }
-    h1 .paws { font-size: 0.9em; }
+    h1 .tm { color: var(--gold); font-size: 0.35em; vertical-align: super; }
+    h1 .paws { font-size: 0.7em; }
     .subtitle {
       color: var(--text-light);
       font-weight: 700;
@@ -139,9 +154,11 @@
     dialog {
       background-color: var(--surface);
       color: var(--text-light);
-      border: 1px solid var(--gold);
+      border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 2rem 1.5rem 1.5rem;
+      padding: 0;
+      overflow: visible;
+      max-height: calc(100vh - 2rem);
       max-width: 420px;
       width: 88%;
       box-sizing: border-box;
@@ -149,7 +166,9 @@
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
       font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
     }
+    dialog[open] { display: flex; flex-direction: column; }
     dialog::backdrop { background: rgba(0, 0, 0, 0.75); }
+    .dlg-body { padding: 2rem 1.5rem 1.5rem; overflow-y: auto; min-height: 0; }
     dialog .paw { font-size: 2.2rem; line-height: 1; }
     dialog h2 { color: var(--text-light); margin: 0.5rem 0 0.25rem; font-size: 1.4rem; }
     dialog h2 .hat { color: var(--gold); }
@@ -186,19 +205,59 @@
     #wl-msg.ok { color: var(--ok); }
     #wl-msg.bad { color: var(--bad); }
 
-    @media (prefers-reduced-motion: reduce) { .btn-teal { transition: none; } }
+    /* Animated border: two lines rise from bottom centre, meet at the top, spark */
+    .frame { position: absolute; top: -1px; left: -1px; pointer-events: none; overflow: visible; }
+    .frame-line {
+      fill: none; stroke-width: 2;
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+      animation: frame-draw var(--draw) cubic-bezier(0.6, 0, 0.3, 1) forwards;
+    }
+    .frame-left { stroke: var(--gold); }
+    .frame-right { stroke: var(--teal); }
+    @keyframes frame-draw { to { stroke-dashoffset: 0; } }
+    .spark {
+      position: absolute; top: 0; left: 50%;
+      width: 10px; height: 10px; margin: -5px 0 0 -5px;
+      border-radius: 50%; pointer-events: none;
+      background: var(--gold-light);
+      box-shadow: 0 0 6px 2px var(--gold-light), 0 0 18px 6px rgba(212, 160, 74, 0.5);
+      opacity: 0; transform: scale(0);
+      animation: spark-pop 0.7s ease-out var(--draw) forwards;
+    }
+    .spark::after {
+      content: ""; position: absolute; inset: -6px; border-radius: 50%;
+      border: 1px solid var(--gold-light);
+      animation: spark-ring 0.7s ease-out var(--draw) forwards;
+    }
+    @keyframes spark-pop {
+      0% { opacity: 0; transform: scale(0); }
+      30% { opacity: 1; transform: scale(1.4); }
+      100% { opacity: 0; transform: scale(0.4); }
+    }
+    @keyframes spark-ring {
+      0% { opacity: 0.9; transform: scale(0.3); }
+      100% { opacity: 0; transform: scale(3); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn-teal { transition: none; }
+      .frame-line { animation: none; stroke-dashoffset: 0; }
+      .spark { display: none; }
+    }
   </style>
 </head>
 <body>
   <main class="container">
-    <p class="kicker">OPEN ACCESS ANIMAL RESCUE</p>
+    <p class="kicker">OPEN ACCESS</p>
+    <hr class="rule">
     <h1><span class="paws" aria-hidden="true">🐾</span> <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span></h1>
-    <p class="subtitle">GPS REAL-TIME</p>
-    <p>Spot a Stray * Take Photo * Upload It* Done</p>
+    <p class="subtitle">ANIMAL REAL-TIME</p>
+    <p>HatDat™ Animal Rescue. "When nothing interacts, everything persists". We're building out the free animal registry.</p>
     <button type="button" class="btn-teal" id="open-soon">Open Access Pet Registry</button>
   </main>
 
   <dialog id="soon" aria-labelledby="soon-title">
+   <div class="dlg-body">
     <div class="paw" aria-hidden="true">🐾</div>
     <h2 id="soon-title"><span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span> Animal Rescue</h2>
     <p class="tagline">Spot a Stray * Take Photo * Upload * Done</p>
@@ -222,12 +281,54 @@
     </form>
 
     <button type="button" class="btn-close" id="close-soon">Close</button>
+   </div>
   </dialog>
 
   <script>
     const API = "https://hatdat-pet-rescue-api.gracelibraryiea.workers.dev";
     const soon = document.getElementById("soon");
-    document.getElementById("open-soon").addEventListener("click", () => soon.showModal());
+    // Animated border: builds two SVG paths sized to the element, bottom centre to top centre.
+    const NS = "http://www.w3.org/2000/svg";
+    function framePaths(w, h, r) {
+      const i = 1, x0 = i, y0 = i, x1 = w - i, y1 = h - i, m = w / 2;
+      r = Math.min(r, (w - 2 * i) / 2, (h - 2 * i) / 2);
+      return [
+        `M${m},${y1} H${x0 + r} A${r},${r} 0 0 1 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 1 ${x0 + r},${y0} H${m}`,
+        `M${m},${y1} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x1 - r},${y0} H${m}`
+      ];
+    }
+    function animateFrame(el) {
+      el.querySelectorAll(":scope > .frame, :scope > .spark").forEach((n) => n.remove());
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("class", "frame");
+      svg.setAttribute("aria-hidden", "true");
+      const left = document.createElementNS(NS, "path");
+      const right = document.createElementNS(NS, "path");
+      left.setAttribute("class", "frame-line frame-left");
+      right.setAttribute("class", "frame-line frame-right");
+      left.setAttribute("pathLength", "1");
+      right.setAttribute("pathLength", "1");
+      svg.append(left, right);
+      const spark = document.createElement("span");
+      spark.className = "spark";
+      spark.setAttribute("aria-hidden", "true");
+      el.append(svg, spark);
+      el._fit = () => {
+        const w = el.offsetWidth, h = el.offsetHeight;
+        svg.setAttribute("width", w); svg.setAttribute("height", h);
+        svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+        const [l, r] = framePaths(w, h, 8);
+        left.setAttribute("d", l); right.setAttribute("d", r);
+      };
+      el._fit();
+      if (!el._ro && "ResizeObserver" in window) {
+        el._ro = new ResizeObserver(() => el._fit && el._fit());
+        el._ro.observe(el);
+      }
+    }
+    animateFrame(document.querySelector(".container"));
+
+    document.getElementById("open-soon").addEventListener("click", () => { soon.showModal(); animateFrame(soon); });
     document.getElementById("close-soon").addEventListener("click", () => soon.close());
     // Clicking the dark area outside the pop-up also closes it (Esc works too).
     soon.addEventListener("click", (e) => { if (e.target === soon) soon.close(); });
