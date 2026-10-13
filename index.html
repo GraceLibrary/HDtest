@@ -165,15 +165,14 @@
       font-size: 0.7em;
     }
 
-    /* Taglines enter alternately, pop, and remain visible */
+    /* Taglines slide in gradually and remain visible */
     .subtitle {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.65em;
+      gap: 0.25em;
       overflow: hidden;
-      font-weight: 900;
-      font-family: "Arial Black", Impact, system-ui, sans-serif;
+      font-weight: 700;
       font-size: clamp(0.72rem, 3.4vw, 0.95rem);
       letter-spacing: 0.12em;
       margin: 0.5rem 0 1rem;
@@ -181,12 +180,9 @@
 
     .tagline-line {
       display: block;
-      position: relative;
       white-space: nowrap;
-      visibility: hidden;
-      transform: translateX(-130%) scale(1);
-      transform-origin: center;
-      animation: tagline-enter 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      transform: translateX(120%);
+      animation: tagline-enter 1.2s ease-out forwards;
     }
 
     .tagline-red {
@@ -196,7 +192,6 @@
 
     .tagline-gold {
       color: var(--gold-light);
-      --enter-from: 130%;
       animation-delay: 2.2s;
     }
 
@@ -205,32 +200,15 @@
       animation-delay: 4s;
     }
 
-    /* Lands at 7s, with the border spark */
+    /* Last line: starts at 5.8s and lands at 7s, when the border closes and spark pops */
     .tagline-white {
       color: var(--text-light);
-      --enter-from: 130%;
       animation-delay: 5.8s;
     }
 
     @keyframes tagline-enter {
-      0% {
-        visibility: visible;
-        transform: translateX(var(--enter-from, -130%)) scale(1);
-      }
-
-      68% {
-        visibility: visible;
-        transform: translateX(0) scale(1.18);
-      }
-
-      84% {
-        visibility: visible;
-        transform: translateX(0) scale(0.96);
-      }
-
-      100% {
-        visibility: visible;
-        transform: translateX(0) scale(1);
+      to {
+        transform: translateX(0);
       }
     }
 
@@ -474,7 +452,7 @@
       }
     }
 
-    /* Larger spark travels from the top-center to the bottom-center */
+    /* Larger, brighter spark appears when the border finishes */
     .spark {
       position: absolute;
       top: 0;
@@ -489,8 +467,8 @@
         0 0 10px 4px var(--gold-light),
         0 0 28px 10px rgba(212, 160, 74, 0.65);
       opacity: 0;
-      transform: translateY(0) scale(0);
-      animation: spark-travel 1.2s ease-out var(--draw) forwards;
+      transform: scale(0);
+      animation: spark-pop 1.2s ease-out var(--draw) forwards;
     }
 
     .spark::after {
@@ -502,20 +480,20 @@
       animation: spark-ring 1.2s ease-out var(--draw) forwards;
     }
 
-    @keyframes spark-travel {
+    @keyframes spark-pop {
       0% {
         opacity: 0;
-        transform: translateY(0) scale(0);
+        transform: scale(0);
       }
 
-      20% {
+      30% {
         opacity: 1;
-        transform: translateY(0) scale(1.4);
+        transform: scale(1.4);
       }
 
       100% {
         opacity: 0;
-        transform: translateY(var(--spark-travel-distance, 200px)) scale(0.4);
+        transform: scale(0.4);
       }
     }
 
@@ -538,8 +516,7 @@
 
       .tagline-line {
         animation: none;
-        visibility: visible;
-        transform: none;
+        transform: translateX(0);
       }
 
       .frame-line {
@@ -647,8 +624,8 @@
       r = Math.min(r, (w - 2 * i) / 2, (h - 2 * i) / 2);
 
       return [
-        `M${m},${y1} H${x0 + r} A${r},${r} 0 0 1 ${x0},${y1 - r} V${y0 + r} A${r},${r} 0 0 1 ${x0 + r},${y0} H${m}`,
-        `M${m},${y1} H${x1 - r} A${r},${r} 0 0 0 ${x1},${y1 - r} V${y0 + r} A${r},${r} 0 0 0 ${x1 - r},${y0} H${m}`
+        `M${m},${y0} H${x0 + r} A${r},${r} 0 0 0 ${x0},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x0 + r},${y1} H${m}`,
+        `M${m},${y0} H${x1 - r} A${r},${r} 0 0 1 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 1 ${x1 - r},${y1} H${m}`
       ];
     }
 
@@ -686,8 +663,6 @@
         const [leftPath, rightPath] = framePaths(w, h, 8);
         left.setAttribute("d", leftPath);
         right.setAttribute("d", rightPath);
-
-        spark.style.setProperty("--spark-travel-distance", `${Math.max(0, h - 16)}px`);
       };
 
       el._fit();
