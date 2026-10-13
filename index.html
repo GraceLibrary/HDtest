@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HatDat™ | Open Access Animal Rescue | Real Time Map-Tracking System</title>
+  <title>HatDat™ | Lost & Found Pet Photo Matching and Map</title>
   <meta name="description" content="HatDat™ Pet Rescue is a free, open access, real-time animal registry. No sign-up: spot a stray, snap a photo, post it, and nearby Watch Dogs help bring lost pets home.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="HatDat™">
@@ -205,9 +205,10 @@
       line-height: 1.5;
     }
 
+    /* Main call-to-action: gold, changing to brand teal on hover */
     .btn-teal {
       display: inline-block;
-      background-color: var(--teal);
+      background-color: var(--gold);
       color: var(--bg);
       padding: 0.6rem 1.2rem;
       min-height: 44px;
@@ -217,12 +218,13 @@
       font-weight: bold;
       margin-top: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, color 0.2s;
     }
 
     .btn-teal:hover,
     .btn-teal:focus-visible {
-      background-color: var(--teal-light);
+      background-color: var(--teal);
+      color: var(--bg);
     }
 
     .btn-teal:disabled {
@@ -518,17 +520,17 @@
 
 <body>
   <main class="container">
-    <p class="kicker">FREE ADVANCED LOST PET SYSTEM</p>
+    <p class="kicker">FREE LOST & FOUND PET SIGHTING TOOL</p>
     <hr class="rule">
     <h1><span class="paws" aria-hidden="true">🐾</span> <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span></h1>
 
-    <div class="subtitle" aria-label="SPOT ANY STRAY * UPLOAD PHOTO * WE MAP-TRACK IT">
-      <span class="tagline-line tagline-red">SPOT ANY STRAY</span>
-      <span class="tagline-line tagline-gold">UPLOAD PHOTO</span>
-      <span class="tagline-line tagline-green">WE MAP-TRACK IT</span>
-    </div>
+    <div class="subtitle" aria-label="SPOT A PET * SHARE A PHOTO * HELP FIND A MATCH">
+  <span class="tagline-line tagline-red">SPOT A PET</span>
+  <span class="tagline-line tagline-gold">SHARE A PHOTO</span>
+  <span class="tagline-line tagline-green">HELP FIND A MATCH</span>
+</div>
 
-    <button type="button" class="btn-teal" id="open-soon">OPEN ACCESS PET REGISTRY</button>
+    <button type="button" class="btn-teal" id="open-soon">H</button>
   </main>
 
   <dialog id="soon" aria-labelledby="soon-title">
