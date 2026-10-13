@@ -80,7 +80,7 @@
       --text-muted: #a09286;
       --ok: #8bb8a6;
       --bad: #e07a6a;
-      --draw: 1.75s;
+      --draw: 7s;
     }
 
     body {
@@ -165,7 +165,7 @@
       font-size: 0.7em;
     }
 
-    /* Taglines slide in one at a time */
+    /* Taglines slide in gradually and remain visible */
     .subtitle {
       display: flex;
       flex-direction: column;
@@ -182,23 +182,23 @@
       display: block;
       white-space: nowrap;
       transform: translateX(120%);
-      animation: tagline-enter 0.7s ease-out forwards;
+      animation: tagline-enter 1.2s ease-out forwards;
     }
 
     .tagline-red {
       color: var(--bad);
-      animation-delay: 0.2s;
+      animation-delay: 0.5s;
     }
 
     .tagline-gold {
       color: var(--gold-light);
-      animation-delay: 0.65s;
+      animation-delay: 3s;
     }
 
-    /* Finishes at 1.75s, with the border animation */
+    /* Starts at 5.8s and finishes at 7s with the border */
     .tagline-green {
       color: var(--teal-light);
-      animation-delay: 1.05s;
+      animation-delay: 5.8s;
     }
 
     @keyframes tagline-enter {
@@ -447,7 +447,7 @@
       }
     }
 
-    /* Larger, brighter spark */
+    /* Larger, brighter spark appears when the border finishes */
     .spark {
       position: absolute;
       top: 0;
@@ -463,7 +463,7 @@
         0 0 28px 10px rgba(212, 160, 74, 0.65);
       opacity: 0;
       transform: scale(0);
-      animation: spark-pop 0.9s ease-out var(--draw) forwards;
+      animation: spark-pop 1.2s ease-out var(--draw) forwards;
     }
 
     .spark::after {
@@ -472,7 +472,7 @@
       inset: -8px;
       border-radius: 50%;
       border: 2px solid var(--gold-light);
-      animation: spark-ring 0.9s ease-out var(--draw) forwards;
+      animation: spark-ring 1.2s ease-out var(--draw) forwards;
     }
 
     @keyframes spark-pop {
