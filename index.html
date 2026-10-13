@@ -452,14 +452,15 @@
       }
     }
 
-    /* Larger, brighter spark appears when the border finishes */
+    /* Larger, brighter spark appears where the border lines meet */
     .spark {
       position: absolute;
-      top: 0;
+      top: auto;
+      bottom: 0;
       left: 50%;
       width: 16px;
       height: 16px;
-      margin: -8px 0 0 -8px;
+      margin: 0 0 -8px -8px;
       border-radius: 50%;
       pointer-events: none;
       background: var(--gold-light);
