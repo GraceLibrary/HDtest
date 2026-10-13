@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HatDat™ <title>HatDat™ | Open Access Animal Rescue | Real-Time Map-Tracking System</title></title>
+  <title>HatDat™ | Open Access Animal Rescue | Real Time Map-Tracking System</title>
   <meta name="description" content="HatDat™ Pet Rescue is a free, open access, real-time animal registry. No sign-up: spot a stray, snap a photo, post it, and nearby Watch Dogs help bring lost pets home.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="HatDat™">
@@ -159,25 +159,23 @@
       font-size: 0.7em;
     }
 
-    /* Tagline slides in once, then remains in place */
+    /* Three lines slide in one by one and stay stacked */
     .subtitle {
-      height: 4.5em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25em;
       overflow: hidden;
-      position: relative;
-      color: var(--text-light);
       font-weight: 700;
       font-size: clamp(0.72rem, 3.4vw, 0.95rem);
       letter-spacing: 0.12em;
-      margin: 0.35rem 0 1rem;
+      margin: 0.5rem 0 1rem;
     }
 
     .tagline-line {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
+      display: block;
       white-space: nowrap;
-      transform: translateX(110%);
+      transform: translateX(120%);
       animation: tagline-enter 0.7s ease-out forwards;
     }
 
