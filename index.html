@@ -474,7 +474,7 @@
       }
     }
 
-    /* Larger, brighter spark appears when the border finishes */
+    /* Larger spark travels from the top-center to the bottom-center */
     .spark {
       position: absolute;
       top: 0;
@@ -489,8 +489,8 @@
         0 0 10px 4px var(--gold-light),
         0 0 28px 10px rgba(212, 160, 74, 0.65);
       opacity: 0;
-      transform: scale(0);
-      animation: spark-pop 1.2s ease-out var(--draw) forwards;
+      transform: translateY(0) scale(0);
+      animation: spark-travel 1.2s ease-out var(--draw) forwards;
     }
 
     .spark::after {
@@ -502,20 +502,20 @@
       animation: spark-ring 1.2s ease-out var(--draw) forwards;
     }
 
-    @keyframes spark-pop {
+    @keyframes spark-travel {
       0% {
         opacity: 0;
-        transform: scale(0);
+        transform: translateY(0) scale(0);
       }
 
-      30% {
+      20% {
         opacity: 1;
-        transform: scale(1.4);
+        transform: translateY(0) scale(1.4);
       }
 
       100% {
         opacity: 0;
-        transform: scale(0.4);
+        transform: translateY(var(--spark-travel-distance, 200px)) scale(0.4);
       }
     }
 
@@ -686,6 +686,8 @@
         const [leftPath, rightPath] = framePaths(w, h, 8);
         left.setAttribute("d", leftPath);
         right.setAttribute("d", rightPath);
+
+        spark.style.setProperty("--spark-travel-distance", `${Math.max(0, h - 16)}px`);
       };
 
       el._fit();
