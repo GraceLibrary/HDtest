@@ -165,7 +165,7 @@
       font-size: 0.7em;
     }
 
-    /* Taglines slide in gradually and remain visible */
+    /* Taglines enter hidden, slide in alternately, then swell and settle */
     .subtitle {
       display: flex;
       flex-direction: column;
@@ -180,35 +180,115 @@
 
     .tagline-line {
       display: block;
+      position: relative;
       white-space: nowrap;
-      transform: translateX(120%);
-      animation: tagline-enter 1.2s ease-out forwards;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateX(-120%) scale(1);
+      transform-origin: center;
+      animation: tagline-sequence 1.5s ease-out forwards;
     }
 
     .tagline-red {
       color: var(--bad);
+      --enter-from: -120%;
+      --spark-side: right;
       animation-delay: 0.5s;
     }
 
     .tagline-gold {
       color: var(--gold-light);
+      --enter-from: 120%;
+      --spark-side: left;
       animation-delay: 2.2s;
     }
 
     .tagline-green {
       color: var(--teal-light);
+      --enter-from: -120%;
+      --spark-side: right;
       animation-delay: 4s;
     }
 
-    /* Last line: starts at 5.8s and lands at 7s, when the border closes and spark pops */
+    /* Lands at 7s with the existing border spark */
     .tagline-white {
       color: var(--text-light);
-      animation-delay: 5.8s;
+      --enter-from: 120%;
+      animation-delay: 5.5s;
     }
 
-    @keyframes tagline-enter {
-      to {
-        transform: translateX(0);
+    .tagline-line::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: var(--spark-position, auto);
+      right: var(--spark-position, auto);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gold-light);
+      box-shadow: 0 0 8px 3px var(--gold-light);
+      opacity: 0;
+      transform: scale(0);
+      pointer-events: none;
+      animation: tagline-cue 0.3s ease-out 1.2s both;
+    }
+
+    .tagline-red::after,
+    .tagline-green::after {
+      --spark-position: -5px;
+    }
+
+    .tagline-gold::after {
+      --spark-position: -5px;
+    }
+
+    @keyframes tagline-sequence {
+      0% {
+        visibility: visible;
+        opacity: 0;
+        transform: translateX(var(--enter-from)) scale(1);
+      }
+
+      55% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+
+      76% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0) scale(1.16);
+      }
+
+      90% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0) scale(0.97);
+      }
+
+      100% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes tagline-cue {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      35% {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
       }
     }
 
@@ -517,7 +597,13 @@
 
       .tagline-line {
         animation: none;
-        transform: translateX(0);
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+      }
+
+      .tagline-line::after {
+        display: none;
       }
 
       .frame-line {
