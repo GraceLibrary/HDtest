@@ -13,7 +13,7 @@
   <meta name="geo.placename" content="Calgary">
   <link rel="canonical" href="https://www.hatdat.com/">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
-
+  
   <!-- Share preview -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.hatdat.com/">
@@ -25,7 +25,6 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="HatDat™ Pet Rescue. Spot a pet. Share a photo. Help find a match.">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HatDat™ Pet Rescue | Launching Soon">
   <meta name="twitter:description" content="Join the list for one email when HatDat™ Pet Rescue launches.">
@@ -171,17 +170,21 @@
       flex-direction: column;
       align-items: center;
       gap: 0.25em;
+      width: 100%;
       overflow: hidden;
       font-weight: 700;
-      font-size: clamp(0.72rem, 3.4vw, 0.95rem);
+      font-size: clamp(0.65rem, 3.2vw, 0.95rem);
       letter-spacing: 0.12em;
       margin: 0.5rem 0 1rem;
+      box-sizing: border-box;
     }
 
     .tagline-line {
       display: block;
+      width: 100%;
+      text-align: center;
       white-space: nowrap;
-      transform: translateX(120%);
+      transform: translateX(100%);
       animation: tagline-enter 1.2s ease-out forwards;
     }
 
@@ -464,7 +467,7 @@
       border-radius: 50%;
       pointer-events: none;
       background: var(--gold-light);
-      box-shadow:
+      box-shadow: 
         0 0 10px 4px var(--gold-light),
         0 0 28px 10px rgba(212, 160, 74, 0.65);
       opacity: 0;
@@ -486,12 +489,10 @@
         opacity: 0;
         transform: scale(0);
       }
-
       30% {
         opacity: 1;
         transform: scale(1.4);
       }
-
       100% {
         opacity: 0;
         transform: scale(0.4);
@@ -503,7 +504,6 @@
         opacity: 0.9;
         transform: scale(0.3);
       }
-
       100% {
         opacity: 0;
         transform: scale(3);
@@ -514,41 +514,35 @@
       .btn-teal {
         transition: none;
       }
-
       .tagline-line {
         animation: none;
         transform: translateX(0);
       }
-
       .frame-line {
         animation: none;
         stroke-dashoffset: 0;
       }
-
       .spark {
         display: none;
       }
     }
   </style>
 </head>
-
 <body>
+
   <main class="container">
     <p class="kicker">FREE SERVICE - LOST &amp; FOUND PET SIGHTING TOOL</p>
     <hr class="rule">
-
     <h1>
       <span class="paws" aria-hidden="true">🐾</span>
       <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span>
     </h1>
-
     <div class="subtitle" aria-label="Spot any lost animal. Upload the photo. Activate real-time mapping. Get them home safely.">
       <span class="tagline-line tagline-red">SPOT ANY LOST ANIMAL</span>
       <span class="tagline-line tagline-gold">UPLOAD THE PHOTO</span>
       <span class="tagline-line tagline-green">ACTIVATE REAL-TIME MAPPING</span>
       <span class="tagline-line tagline-white">GET THEM HOME SAFELY</span>
     </div>
-
     <button type="button" class="btn-teal" id="open-soon">
       GET LAUNCH UPDATES
     </button>
@@ -557,25 +551,22 @@
   <dialog id="soon" aria-labelledby="soon-title">
     <div class="dlg-body">
       <div class="paw" aria-hidden="true">🐾</div>
-
       <h2 id="soon-title">
         <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span>
         Pet Rescue
       </h2>
-
       <p class="tagline">Almost ready. Join the list for one email when we launch.</p>
 
       <form class="wl" id="wl">
         <label for="wl-email">Get one email when we launch</label>
-        <input
-          type="email"
-          id="wl-email"
-          name="email"
-          placeholder="you@example.com"
+        <input 
+          type="email" 
+          id="wl-email" 
+          name="email" 
+          placeholder="you@example.com" 
           autocomplete="email"
           required
         >
-
         <label class="consent">
           <input type="checkbox" name="consent" value="yes" required>
           <span>Yes, email me once when HatDat™ Pet Rescue goes live.</span>
@@ -589,20 +580,18 @@
           </label>
         </div>
 
-        <div
-          class="cf-turnstile"
-          data-sitekey="0x4AAAAAAFTzuwsBcyt67jVG"
+        <div 
+          class="cf-turnstile" 
+          data-sitekey="0x4AAAAAAFTzuwsBcyt67jVG" 
           data-theme="dark"
         ></div>
 
         <button type="submit" class="btn-teal" id="wl-send">
           Email Me on Launch
         </button>
-
         <p class="fine">Your email is not displayed publicly.</p>
         <div id="wl-msg" role="status" aria-live="polite"></div>
       </form>
-
       <button type="button" class="btn-close" id="close-soon">Close</button>
     </div>
   </dialog>
@@ -613,7 +602,6 @@
 
     // Animated border: builds two SVG paths sized to the element.
     const NS = "http://www.w3.org/2000/svg";
-
     function framePaths(w, h, r) {
       const i = 1;
       const x0 = i;
@@ -621,9 +609,7 @@
       const x1 = w - i;
       const y1 = h - i;
       const m = w / 2;
-
       r = Math.min(r, (w - 2 * i) / 2, (h - 2 * i) / 2);
-
       return [
         `M${m},${y0} H${x0 + r} A${r},${r} 0 0 0 ${x0},${y0 + r} V${y1 - r} A${r},${r} 0 0 0 ${x0 + r},${y1} H${m}`,
         `M${m},${y0} H${x1 - r} A${r},${r} 0 0 1 ${x1},${y0 + r} V${y1 - r} A${r},${r} 0 0 1 ${x1 - r},${y1} H${m}`
@@ -639,7 +625,6 @@
 
       const left = document.createElementNS(NS, "path");
       const right = document.createElementNS(NS, "path");
-
       left.setAttribute("class", "frame-line frame-left");
       right.setAttribute("class", "frame-line frame-right");
       left.setAttribute("pathLength", "1");
@@ -656,16 +641,13 @@
       el._fit = () => {
         const w = el.offsetWidth;
         const h = el.offsetHeight;
-
         svg.setAttribute("width", w);
         svg.setAttribute("height", h);
         svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-
         const [leftPath, rightPath] = framePaths(w, h, 8);
         left.setAttribute("d", leftPath);
         right.setAttribute("d", rightPath);
       };
-
       el._fit();
 
       if (!el._ro && "ResizeObserver" in window) {
@@ -698,7 +680,6 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
       send.disabled = true;
       msg.className = "";
       msg.textContent = "Sending...";
@@ -708,7 +689,6 @@
           method: "POST",
           body: new FormData(form)
         });
-
         const data = await response.json();
 
         if (response.ok) {
