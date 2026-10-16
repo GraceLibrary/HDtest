@@ -62,9 +62,6 @@
   }
   </script>
 
-  <link rel="preconnect" href="https://challenges.cloudflare.com">
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
   <style>
     :root {
       --bg: #090a0f;
@@ -549,6 +546,13 @@
 
     document.getElementById("open-soon").addEventListener("click", () => {
       soon.showModal();
+      if (!window.tsLoaded) {
+        window.tsLoaded = true;
+        const ts = document.createElement("script");
+        ts.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        ts.async = true;
+        document.head.appendChild(ts);
+      }
     });
 
     document.getElementById("close-soon").addEventListener("click", () => {
