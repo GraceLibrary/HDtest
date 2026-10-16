@@ -204,6 +204,15 @@
       font-weight: 600;
     }
 
+    .card-title {
+      color: var(--text-main);
+      font-size: clamp(1.05rem, 4vw, 1.25rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
     .subtitle-block {
       font-size: 1.05rem;
       color: var(--text-muted);
@@ -457,13 +466,14 @@
 
   <main class="container">
     <div class="badge-wrapper">
-      <p class="kicker">North American Animal Rescue Network</p>
+      <p class="card-title">Free Pet Registry</p>
       <span class="status-pill">Launching Soon</span>
     </div>
 
     <h1>
       <span class="hat">Hat</span><span class="dat">Dat</span><span class="tm">™</span>
     </h1>
+    <p class="kicker">Open Access Animal Rescue Network</p>
 
     <div class="subtitle-block">
       A free, open-access platform for reporting and discovering lost pet sightings across North America instantly. Designed to eliminate barriers when every minute counts.
